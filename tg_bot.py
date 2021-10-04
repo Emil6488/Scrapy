@@ -1,11 +1,14 @@
 import asyncio
+from functools import cache
 from aiogram import Bot , Dispatcher, executor, types
-from auth_data import token ,  chat_id
+from auth_data import token , user_id
 import json
 import datetime
 from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 from aiogram.dispatcher.filters import Text
 from main import check_cars_update
+
+
 
 bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
 
@@ -19,16 +22,17 @@ async def start(message: types.Message):
     
     await message.answer("Лента машин", reply_markup=keyboard)
 
+
 @dp.message_handler(Text(equals="Все машины"))
 async def get_all_cars(message:  types.Message):
-    with open("cars.json", encoding='utf-8') as file:
+    with open("cars.json", encoding='utf-8' ) as file:
         new_cars = json.load(file)
 
     for k , v in sorted(new_cars.items()):
-        cars = f"{hbold(datetime.datetime.fromtimestamp(v['date_timestamp']))}\n"\
-               f"{hlink(v['name'], v['url'])}\n"\
+        cars = f"{hlink(v['full_name'], v['url'])}\n"\
                 f"{hcode(v['price'])}\n"\
-                f"{hcode(v['year'])}\n"
+                f"{hcode(v['year'])}\n"\
+                f"{hcode(v['odometer'])}\n"
         await message.answer(cars)
 
 @dp.message_handler(Text(equals="Последние 5 машин"))
@@ -37,8 +41,7 @@ async def get_last_cars(message:  types.Message):
         new_cars = json.load(file)
 
     for k , v in sorted(new_cars.items())[-5:]:
-        cars = f"{hbold(datetime.datetime.fromtimestamp(v['date_timestamp']))}\n"\
-               f"{hlink(v['name'], v['url'])}\n"\
+        cars = f"{hlink(v['full_name'], v['url'])}\n"\
                 f"{hcode(v['price'])}\n"\
                 f"{hcode(v['year'])}\n"        
         await message.answer(cars)
@@ -49,24 +52,27 @@ async def get_fresh_cars(message:  types.Message):
 
     if len(fresh_car) >= 1:
         for k, v in sorted(fresh_car.items()):
-            cars = f"{hbold(datetime.datetime.fromtimestamp(v['date_timestamp']))}\n" \
-               f"{hlink(v['name'], v['url'])}\n" \
+            cars = f"{hlink(v['full_name'], v['url'])}\n" \
                 f"{hcode(v['price'])}\n" \
                 f"{hcode(v['year'])}\n" 
         await message.answer(cars)
     else:
         await message.answer("Пока нету новых машин....")
 
+async def get_update():
+    pass
+
 async def cars_every_minutes():
     while True:
         fresh_car = check_cars_update()
         if len(fresh_car) >= 1:
             for k, v in sorted(fresh_car.items()):
-                cars = f"{hbold(datetime.datetime.fromtimestamp(v['date_timestamp']))}\n" \
-                        f"{hlink(v['name'], v['url'])}\n" \
-                        f"{hcode(v['price'])}\n" \
-                        f"{hcode(v['year'])}\n"
-                await bot.send_message(chat_id=chat_id)
+                cars = f"{hbold(v['date_timestamp'])}\n"\
+                        f"{hlink(v['full_name'], v['url'])}\n" \
+                        f"{hcode(v['price'])} |  " \
+                        f"{hcode(v['year'])} | "\
+                        f"{hcode(v['odometer'])}"
+                await bot.send_message(user_id, cars)
         #else:
         #    await bot.send_message(user_id, "None")
         await asyncio.sleep(60)

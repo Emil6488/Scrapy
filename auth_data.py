@@ -1,6 +1,5 @@
 token = "2037075910:AAFwibpFcEvuM7QvLBQ1hWnwBFS6ZX9c4Vo"
 
-#user_id = 637540332
+user_id = 637540332
 #user_id = 2003677565
 
-chat_id =[637540332, 2003677565]
