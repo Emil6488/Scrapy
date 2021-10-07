@@ -1,11 +1,12 @@
 import fake_useragent
 import requests
-from bs4 import BeautifulSoup as BS
+from bs4 import BeautifulSoup, Tag as BS
 import json
 from datetime import datetime
 import time
 import lxml
 from model_and_make import model_name_list
+import os
 
 
 def get_first_cars():
@@ -98,8 +99,11 @@ def get_first_cars():
 
 def check_cars_update():
 
-    with open("cars.json", encoding="utf-8") as file:
-        new_cars = json.load(file)
+    if(os.stat("cars.json").st_size > 0):
+        with open("cars.json", encoding="utf-8") as file:
+            new_cars = json.load(file)
+    else:
+        new_cars = None
     
     user = fake_useragent.UserAgent().random
     
@@ -175,13 +179,16 @@ def check_cars_update():
             else:
                 title_status = 'Dont status'
 
-
+            if isinstance(main_price, Tag):
+                price = main_price.text
+            else:
+                price = "undefined"
             new_cars[car_id] = {
                 'full_name' : full_name,
                 "date_timestamp" : date_timestamp,
                 "url" : car,
                 "name" : model_car.capitalize(),
-                "price" : main_price.string(),
+                "price" : price,
                 "year" : year,
                 'odometer' : odometer,
                 'title_status' : title_status
@@ -192,7 +199,7 @@ def check_cars_update():
                 "date_timestamp" : date_timestamp,
                 "url" : car,
                 "name" : model_car.capitalize(),
-                "price" : main_price.string(),
+                "price" : price,
                 "year" : year,
                 'odometer' : odometer,
                 'title_status' : title_status

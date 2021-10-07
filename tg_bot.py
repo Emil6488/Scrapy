@@ -8,19 +8,21 @@ from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 from aiogram.dispatcher.filters import Text
 from main import check_cars_update
 
-
+userId = 0
 
 bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
 
 dp = Dispatcher(bot)
 
-@dp.message_handler(commands="start")
+@dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    start_buttons = ["Все машины", "Последние 5 машин","Свежие машины"]
+    start_buttons = ["Все машины", "Последние 5 машин","Свежие машины","Активизировать поиск"]
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*start_buttons)
-    
+    userId = message.from_user.id
+    print(userId)
     await message.answer("Лента машин", reply_markup=keyboard)
+
 
 
 @dp.message_handler(Text(equals="Все машины"))
@@ -63,8 +65,10 @@ async def get_update():
     pass
 
 async def cars_every_minutes():
+    print(userId)
     while True:
         fresh_car = check_cars_update()
+        print("we are in")
         if len(fresh_car) >= 1:
             for k, v in sorted(fresh_car.items()):
                 cars = f"{hbold(v['date_timestamp'])}\n"\
