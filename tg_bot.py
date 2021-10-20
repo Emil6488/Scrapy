@@ -13,6 +13,10 @@ from helper import checkDates
 userId = None
 maxPrice = None
 minPrice = None
+minYear = None
+maxYear = None
+model = None
+condition = None
 latestCar = None
 search = False
 bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
@@ -86,6 +90,8 @@ async def enter_Max_Price(message:  types.Message):
             maxPrice = value
         elif criteria == "minPrice":
             minPrice = value
+        elif criteria == "minYear":
+            minYear = value
         await message.answer("Вводите критерии")
     else:
         await message.answer("Пожалуйста включите фильтр")
@@ -94,8 +100,22 @@ async def enter_Max_Price(message:  types.Message):
 async def get_help(message:  types.Message):
     await message.answer("Для добавления специального критерия нажмите кнопку Редактировать поиск и далее наберите следующее:")
     await message.answer("Незабывайте пробелыи слово Search перед началом! Это важно")
-    await message.answer("Search: maxPrice = число")
+    await message.answer("Фильтр по цене")
     await message.answer("Search: minPrice = число")
+    await message.answer("Search: maxPrice = число")
+    await asyncio.sleep(3)
+    await message.answer("Фильтр по году производителя")
+    await message.answer("Search: minYear = число")
+    await message.answer("Search: maxYear = число")
+    await asyncio.sleep(3)
+    await message.answer("Фильтр по модели (/ обязателен)")
+    await message.answer("Search: model = toyota/camry")
+    await asyncio.sleep(3)
+    await message.answer("Фильтр по условию")
+    await message.answer("Search: condition = число")
+    await message.answer("10 => new, 20 => like new, 30 => excellent")
+    await message.answer("40 => good, 50 => fair, 60 => salvage")
+        
 
 
 async def cars_every_minute():
