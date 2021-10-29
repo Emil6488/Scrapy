@@ -32,22 +32,17 @@
       <div class="row">
         <div class="col-md-12 order-md-1">
           
-          <form class="needs-validation" novalidate>
+          <!--<form method="POST" action="/api/parameters"> -->
+          <form id="queryForm" method="POST">
             <h4 class="mb-3">Price</h4>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
+                <input type="text" class="form-control" id="minPrice" name="minPrice">
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
+                <input type="text" class="form-control" id="maxPrice" name="maxPrice" >
               </div>
             </div>
 
@@ -55,17 +50,11 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
+                <input type="text" class="form-control" id="minOdometer" name="minOdometer" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
+                <input type="text" class="form-control" id="maxOdometer" name="maxOdometer" placeholder=""  required>
               </div>
             </div>
 
@@ -73,17 +62,11 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
+                <input type="text" class="form-control" id="minYear" name="minYear" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
+                <input type="text" class="form-control" id="maxYear" name="maxYear" >
               </div>
             </div>
 
@@ -91,48 +74,37 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Miles</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
+                <input type="text" class="form-control" id="miles" name="miles" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">From ZIP</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
+                <input type="text" class="form-control" name="postalCode" id="postalCode" >
               </div>
             </div>
             <div class="row">
             <div class="col-md-6 mb-3">
               <label for="state">Condition</label>
-              <select class="custom-select d-block w-100" id="state" required>
-                <option value="">Choose...</option>
+              <select class="custom-select d-block w-100" name="condition" id="condition">
+                <option  selected>Choose...</option>
                 <option value="10">New</option>
                 <option value="20">Like New</option>
                 <option value="30">Excellent</option>
                 <option value="40">Fair</option>
                 <option value="50">Salvage</option>
               </select>
-              <div class="invalid-feedback">
-                Please provide a valid state.
-              </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <label for="lastName">Make and Model</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
-              </div>
+              <input type="text" class="form-control" id="carModel" name="carModel">
             </div>
           </div>
 
 
 
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+            <button class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
+            <input type="submit"/>
           </form>
         </div>
       </div>
@@ -145,6 +117,7 @@
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/holder.min.js"></script>
+    <script src="/static/js/ajaxQuery.js"></script>
     <script>
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (function() {
