@@ -7,22 +7,36 @@ from rest_framework import status
 from parameters.models import Parameters
 from parameters.serializers import ParametersSerializer
 from rest_framework.decorators import api_view
+
+from django.http.response import HttpResponse
+from rest_framework import status
+
+from parameters.models import Parameters
 from . import forms
 
 # Create your views here.
 @api_view(['POST', 'GET'])
 def postForm(request):
+    print(request.body)
     if request.method == 'GET': 
-        form = forms.createParameter()
         return render(request, 'form.html')
-    else:
-        parameters_data = JSONParser().parse(request)
-        print(parameters_data)
-        parameters_serializer = ParametersSerializer(data=parameters_data)
-        if parameters_serializer.is_valid():
-            parameters_serializer.save()
-            return JsonResponse(parameters_serializer.data, status=status.HTTP_201_CREATED) 
-        return JsonResponse(parameters_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'POST':
+        formData = request.POST.dict()
+        minPrice = int(formData.get("minPrice"))
+        maxPrice = int(formData.get("maxPrice"))
+        minYear = int(formData.get("minYear"))
+        maxYear = int(formData.get("maxYear"))
+        minOdometer = int(formData.get("minOdometer"))
+        maxOdometer = int(formData.get("maxOdometer"))
+        condition = int(formData.get("condition"))
+        miles = int(formData.get("miles"))
+        postalCode = int(formData.get("postalCode"))
+        carModel = formData.get("carModel")
+        newParam = Parameters(minPrice = minPrice,maxPrice = maxPrice,minYear = minYear,maxYear = maxYear,
+                                minOdometer = minOdometer, maxOdometer = maxOdometer, condition = condition, miles = miles,
+                                postalCode = postalCode, carModel = carModel)
+        newParam.save()
+        return HttpResponse("Filter Updated", status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
