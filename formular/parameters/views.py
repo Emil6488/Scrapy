@@ -29,7 +29,7 @@ def postForm(request):
 def getFormbyId(request,pk):
     try: 
         parameter = Parameters.objects.get(userId=pk) 
-    except Tutorial.DoesNotExist: 
+    except Parameters.DoesNotExist: 
         return JsonResponse({'message': 'The parameters does not exist'}, status=status.HTTP_404_NOT_FOUND) 
     parameterSerialize = ParametersSerializer(parameter) 
     return JsonResponse(parameterSerialize.data)

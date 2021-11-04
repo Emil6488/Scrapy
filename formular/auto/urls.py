@@ -1,5 +1,5 @@
 from django.conf.urls import url 
-from auto  import views 
+from . import views 
 
 urlpatterns = [ 
     url(r'^api/auto$', views.addAutos),

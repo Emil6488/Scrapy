@@ -2,7 +2,7 @@ from rest_framework import serializers
 from auto.models import Auto
  
  
-class TutorialSerializer(serializers.ModelSerializer):
+class AutoSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = Auto

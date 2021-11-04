@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^about/$', views.about),
     url(r'^', include('parameters.urls')),
+    url(r'^', include('auto.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

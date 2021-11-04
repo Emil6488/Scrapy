@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'parameters.apps.ParametersConfig',
     'auto.apps.AutoConfig',
-    'corsheaders'
+    'corsheaders',
+    'bs4',
+    'requests'
 ]
 
 MIDDLEWARE = [

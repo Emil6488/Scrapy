@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Parameters(models.Model):
-    userId = models.IntegerField(null=True)
+    userId = models.PositiveBigIntegerField(null=True)
     minPrice = models.IntegerField(null=True)
     maxPrice = models.IntegerField(null=True)
     minYear = models.IntegerField(null=True)
