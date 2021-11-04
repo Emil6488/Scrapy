@@ -3,5 +3,6 @@ from parameters import views
  
 urlpatterns = [ 
     url(r'^api/parameters$', views.postForm),
+    url(r'^api/form/(?P<pk>[0-9]+)$', views.formLink),
     url(r'^api/parameters/(?P<pk>[0-9]+)$', views.getFormbyId),
 ]

@@ -5,48 +5,7 @@ from auto.models import Auto
 from datetime import datetime
 
 
-def scrapDateAndQuery(latestCar,query,exists):
-    cars = []
-    URL = "https://losangeles.craigslist.org/d/cars-trucks-by-owner/search/cto"
-    if exists is True:
-        URL = "https://losangeles.craigslist.org/d/cars-trucks-by-owner/search/cto"+query
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, "html.parser")
-    searchResults = soup.find(id="search-results")
-    carRows = searchResults.find_all("li", class_="result-row")
-    counter = 0
-    for car in carRows:
-        url = car.find("a", href=True)
-        priceClass = url.find("span", class_="result-price")
-        price = 0
-        if priceClass is None:
-            price = 0
-        else: 
-            price = priceClass.text
-        link = url['href']
-        carIn = requests.get(url['href'])
-        soupIn = BeautifulSoup(carIn.content, "html.parser")
-        #extract posted
-        dateBar = soupIn.find("header", class_="dateReplyBar")
-        time = dateBar.find("time", class_="date")
-        posted = time.text.strip()
-        print("Date 1="+latestCar)
-        print("Date 2="+posted)
-        print(findLatest(latestCar, posted))
-        if findLatest(latestCar, posted) is False:
-            attr = soupIn.find("div", class_="mapAndAttrs")
-            name = attr.find("p", class_="attrgroup")
-            title = name.text.strip()
-            cars.append(setContent(title,link,price,posted))
-        else:
-            return cars
-
-
-
-
-
-
-def scrapMain(limit, URL = "https://losangeles.craigslist.org/d/cars-trucks-by-owner/search/cto"):
+def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
     cars = []   
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -57,15 +16,15 @@ def scrapMain(limit, URL = "https://losangeles.craigslist.org/d/cars-trucks-by-o
         url = car.find("a", href=True)
         price = url.find("span", class_="result-price")
         if price is None:
-            parsedCar = scrapContent(url['href'],0)
+            parsedCar = scrapContent(url['href'],0, userId,firstSearch)
         else:
-            parsedCar = scrapContent(url['href'],price.text)        
+            parsedCar = scrapContent(url['href'], price.text, userId,firstSearch)        
         cars.append(parsedCar)
         limit = limit - 1
         if limit == 0:
             return cars
 
-def scrapContent(link,price):
+def scrapContent(link,price, userId,firstSearch):
     page = requests.get(link)
     soup = BeautifulSoup(page.content, "html.parser")
     #extract posted
@@ -76,20 +35,43 @@ def scrapContent(link,price):
     attr = soup.find("div", class_="mapAndAttrs")
     name = attr.find("p", class_="attrgroup")
     title = name.text.strip()
-    return setContent(title,link,price,posted)
+    return setContent(title, link, price, posted, userId,firstSearch)
 
 
-def setContent(title,link,price,posted):
+def setContent(title, link, price, posted, userId, firstSearch):
     print(posted)
     formatPosted = datetime.strptime(posted, '%Y-%d-%m  %H:%M')
-    auto = Auto(link = link,title = title,price = price,posted = formatPosted)
-    auto.save()
-    return auto
-    ###
-    # return {
-    # "link":link,
-    # "title":title,,
-    # "price":price,
-    # "posted":posted
-    #}
-    ###
+    auto = Auto(link = link,title = title,price = price,posted = formatPosted,userId = userId)
+    if firstSearch == True:
+        auto.save()
+    return {
+     "link":link,
+     "title":title,
+     "price":price,
+     "posted":posted
+    }
+
+
+def generateQuery(parameter):
+    query = ""
+    if parameter.minPrice:
+        query = query+"minPrice="+str(parameter.minPrice)+"&"
+    if parameter.maxPrice:
+        query = query+"maxPrice="+str(parameter.maxPrice)+"&"
+    if parameter.minYear:
+        query = query+"minYear="+str(parameter.minYear)+"&"
+    if parameter.maxYear:
+        query = query+"maxYear="+str(parameter.maxYear)+"&"
+    if parameter.minOdometer:
+        query = query+"minOdometer="+str(parameter.minOdometer)+"&"
+    if parameter.maxOdometer:
+        query = query+"maxOdometer="+str(parameter.maxOdometer)+"&"
+    if parameter.condition:
+        query = query+"condition="+str(parameter.condition)+"&"
+    if parameter.miles:
+        query = query+"miles="+str(parameter.miles)+"&"
+    if parameter.postalCode:
+        query = query+"postalCode="+str(parameter.postalCode)+"&"
+    if parameter.carModel:
+        query = query+"carModel="+parameter.carModel+"&"
+    return query
