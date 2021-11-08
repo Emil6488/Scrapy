@@ -1,6 +1,3 @@
 #token = "2037075910:AAFwibpFcEvuM7QvLBQ1hWnwBFS6ZX9c4Vo"
 token = "2018151846:AAE0HhWs3OCntHLHTX4rhhf_aQkfACqe4fU"
-#user_id = 637540332
-user_id = 394485492
-#user_id = 2003677565
 

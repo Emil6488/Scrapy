@@ -13,3 +13,4 @@ class Parameters(models.Model):
     miles =  models.IntegerField(null=True)
     postalCode =  models.IntegerField(null=True)
     carModel = models.CharField(max_length=100, null=True)
+    active = models.BooleanField(default=False)

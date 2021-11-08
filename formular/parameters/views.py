@@ -46,7 +46,16 @@ def getFormbyId(request,pk):
     except Parameters.DoesNotExist: 
         return JsonResponse({'message': 'The parameters does not exist'}, status=status.HTTP_404_NOT_FOUND) 
     parameterSerialize = ParametersSerializer(parameter) 
-    return JsonResponse(parameterSerialize.data)
+    return JsonResponse(parameterSerialize.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def formLink(request,pk):
+    try: 
+        parameter = Parameters.objects.get(userId=pk)
+        return JsonResponse({'message': 'https://4385-78-48-84-207.ngrok.io/api/parameters/'}, status=status.HTTP_200_OK) 
+    except Parameters.DoesNotExist: 
+        return JsonResponse({'message': 'The parameters does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    
 
 def formDef(request):
     return render(request, 'form.html')
