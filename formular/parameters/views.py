@@ -14,33 +14,41 @@ from rest_framework import status
 from parameters.models import Parameters
 from . import forms
 
+endpoint = "https://8fe0-131-220-35-155.ngrok.io"
+
 # Create your views here.
 @api_view(['POST', 'GET'])
 def postForm(request):
-    print(request.body)
-    if request.method == 'GET': 
-        return render(request, 'form.html')
-    elif request.method == 'POST':
-        formData = request.POST.dict()
-        minPrice = int(formData.get("minPrice"))
-        maxPrice = int(formData.get("maxPrice"))
-        minYear = int(formData.get("minYear"))
-        maxYear = int(formData.get("maxYear"))
-        minOdometer = int(formData.get("minOdometer"))
-        maxOdometer = int(formData.get("maxOdometer"))
-        condition = int(formData.get("condition"))
-        miles = int(formData.get("miles"))
-        postalCode = int(formData.get("postalCode"))
-        carModel = formData.get("carModel")
-        newParam = Parameters(minPrice = minPrice,maxPrice = maxPrice,minYear = minYear,maxYear = maxYear,
-                                minOdometer = minOdometer, maxOdometer = maxOdometer, condition = condition, miles = miles,
-                                postalCode = postalCode, carModel = carModel)
-        newParam.save()
-        return HttpResponse("Filter Updated", status=status.HTTP_200_OK)
+    formData = request.POST.dict()
+    minPrice = int(formData.get("minPrice"))
+    maxPrice = int(formData.get("maxPrice"))
+    minYear = int(formData.get("minYear"))
+    maxYear = int(formData.get("maxYear"))
+    minOdometer = int(formData.get("minOdometer"))
+    maxOdometer = int(formData.get("maxOdometer"))
+    condition = int(formData.get("condition"))
+    miles = int(formData.get("miles"))
+    postalCode = int(formData.get("postalCode"))
+    carModel = formData.get("carModel")
+    newParam = Parameters(
+        minPrice=minPrice,
+        maxPrice=maxPrice,
+        minYear=minYear,
+        maxYear=maxYear,
+        minOdometer=minOdometer,
+        maxOdometer=maxOdometer,
+        condition=condition,
+        miles=miles,
+        postalCode=postalCode,
+        carModel=carModel,
+    )
+    newParam.save()
+    return HttpResponse("Filter Updated", status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
-def getFormbyId(request,pk):
+def getParameterValues(request,pk):
     try: 
         parameter = Parameters.objects.get(userId=pk) 
     except Parameters.DoesNotExist: 
@@ -49,13 +57,13 @@ def getFormbyId(request,pk):
     return JsonResponse(parameterSerialize.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def formLink(request,pk):
+def getFormLink(request,pk):
     try: 
         parameter = Parameters.objects.get(userId=pk)
-        return JsonResponse({'message': 'https://4385-78-48-84-207.ngrok.io/api/parameters/'}, status=status.HTTP_200_OK) 
+        return JsonResponse({'message': endpoint + '/api/form'}, status=status.HTTP_200_OK) 
     except Parameters.DoesNotExist: 
         return JsonResponse({'message': 'The parameters does not exist'}, status=status.HTTP_404_NOT_FOUND) 
     
-
+@api_view(['GET'])
 def formDef(request):
     return render(request, 'form.html')

@@ -1,49 +1,101 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
 
     <title>Checkout example for Bootstrap</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/">
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/4.0/examples/checkout/"
+    />
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="/static/css/form-validation.css" rel="stylesheet">
+    <link href="/static/css/form-validation.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-light" style="margin-bottom:2%;">
-
+  <body class="bg-light" style="margin-bottom: 2%">
     <div class="container">
       <div class="py-5 text-center">
         <h2>Query form</h2>
-        <p class="lead">
-          Please fill in the data for your search
-        </p>
+        <p class="lead">Please fill in the data for your search</p>
       </div>
 
       <div class="row">
         <div class="col-md-12 order-md-1">
-          
           <!--<form method="POST" action="/api/parameters"> -->
-          <form id="queryForm" method="POST" action="http://localhost:8000/api/parameters">
-          {% csrf_token %}
+          <form id="queryForm"   method="POST"    action="http://localhost:8000/api/parameters">
+            {% csrf_token %}
+            <!--
+            <h4 class="mb-3">Location</h4>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="Area">Area</label>
+                <select
+                  class="custom-select d-block w-100"
+                  name="area"
+                  id="area"
+                >
+                        <option selected value="losangeles">los angeles</option>
+                        <option value="bakersfield">bakersfield</option>
+                        <option value="fresno">fresno</option>
+                        <option value="hanford">hanford</option>
+                        <option value="imperial">imperial co</option>
+                        <option value="inlandempire">inland empire</option>
+                        <option value="lasvegas">las vegas</option>
+                        <option value="orangecounty">orange co</option>
+                        <option value="palmsprings">palm springs</option>
+                        <option value="sandiego">san diego</option>
+                        <option value="slo">san luis obispo</option>
+                        <option value="santabarbara">santa barbara</option>
+                        <option value="santamaria">santa maria</option>
+                        <option value="ventura">ventura</option>
+                        <option value="visalia">visalia-tulare</option>
+                        <option value="yuma">yuma</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="region">Region</label>
+                <select
+                  class="custom-select d-block w-100"
+                  name="subarea"
+                  id="subarea"
+                >
+                <option value="allLG" selected>all los angeles</option>
+                <option value="sfv">SF valley</option>
+                <option value="ant">antelope valley</option>
+                <option value="lac">central LA</option>
+                <option value="lgb">long beach</option>
+                <option value="sgv">san gabriel valley</option>
+                <option value="wst">westside-southbay</option>
+                </select>
+              </div>
+              </div>
+            
+            -->
+            
+            
             <h4 class="mb-3">Price</h4>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="number" "min"="0" class="form-control" id="minPrice" name="minPrice">
+                <input type="number" "min"="0" class="form-control"
+                id="minPrice" name="minPrice">
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="number" "min"="0" class="form-control" id="maxPrice" name="maxPrice" >
+                <input type="number" "min"="0" class="form-control"
+                id="maxPrice" name="maxPrice" >
               </div>
             </div>
 
@@ -51,11 +103,13 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="number" "min"="0" class="form-control" id="minOdometer" name="minOdometer" >
+                <input type="number" "min"="0" class="form-control"
+                id="minOdometer" name="minOdometer" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="number" "min"="0" class="form-control" id="maxOdometer" name="maxOdometer">
+                <input type="number" "min"="0" class="form-control"
+                id="maxOdometer" name="maxOdometer">
               </div>
             </div>
 
@@ -63,11 +117,13 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Minimum</label>
-                <input type="number" "min"="0" class="form-control" id="minYear" name="minYear" >
+                <input type="number" "min"="0" class="form-control" id="minYear"
+                name="minYear" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Maximum</label>
-                <input type="number" "min"="0" class="form-control" id="maxYear" name="maxYear" >
+                <input type="number" "min"="0" class="form-control" id="maxYear"
+                name="maxYear" >
               </div>
             </div>
 
@@ -75,36 +131,47 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="firstName">Miles</label>
-                <input type="number" "min"="0" class="form-control" id="miles" name="miles" >
+                <input type="number" "min"="0" class="form-control" id="miles"
+                name="miles" >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">From ZIP</label>
-                <input type="number" "min"="0" class="form-control" name="postalCode" id="postalCode" >
+                <input type="number" "min"="0" class="form-control"
+                name="postalCode" id="postalCode" >
               </div>
             </div>
             <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="state">Condition</label>
-              <select class="custom-select d-block w-100" name="condition" id="condition">
-                <option  selected>Choose...</option>
-                <option value="10">New</option>
-                <option value="20">Like New</option>
-                <option value="30">Excellent</option>
-                <option value="40">Fair</option>
-                <option value="50">Salvage</option>
-              </select>
+              <div class="col-md-6 mb-3">
+                <label for="state">Condition</label>
+                <select
+                  class="custom-select d-block w-100"
+                  name="condition"
+                  id="condition"
+                >
+                  <option selected>Choose...</option>
+                  <option value="10">New</option>
+                  <option value="20">Like New</option>
+                  <option value="30">Excellent</option>
+                  <option value="40">Fair</option>
+                  <option value="50">Salvage</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Make and Model</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="carModel"
+                  name="carModel"
+                />
+              </div>
             </div>
 
-            <div class="col-md-6 mb-3">
-              <label for="lastName">Make and Model</label>
-              <input type="text" class="form-control" id="carModel" name="carModel">
-            </div>
-          </div>
-
-
-
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
+            <hr class="mb-4" />
+            <button class="btn btn-primary btn-lg btn-block" id="submit">
+              Submit
+            </button>
           </form>
         </div>
       </div>
@@ -113,31 +180,46 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/holder.min.js"></script>
     <script src="/static/js/ajaxQuery.js"></script>
     <script>
       // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
+      (function () {
+        "use strict";
 
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
+        window.addEventListener(
+          "load",
+          function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName("needs-validation");
 
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(
+              forms,
+              function (form) {
+                form.addEventListener(
+                  "submit",
+                  function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add("was-validated");
+                  },
+                  false
+                );
               }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
+            );
+          },
+          false
+        );
       })();
     </script>
   </body>
