@@ -59,15 +59,18 @@ async def viewFilterValues(message:  types.Message):
 async def cars_every_minute():
     while True:
         response = carsEveryMinute()
-        if len(response) > 0:
-            for v in response:
+        if isinstance(response, []):
+            return
+        for key in response:
+            userId = key
+            body = response[key]
+            if isinstance(body, str):
+                await bot.send_message(userId, body)
+            for v in body:
                 cars = f"{hlink(v['title'], v['link'])}\n"\
                         f"{hcode(v['price'])}\n"\
                         f"{hcode(v['posted'])}\n" 
-                userId = v['userId']
                 await bot.send_message(userId, cars)
-        else:
-            await bot.send_message(userId, "No new cars were added")
         await asyncio.sleep(10)
 
 if __name__=='__main__':

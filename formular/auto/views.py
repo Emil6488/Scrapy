@@ -43,10 +43,12 @@ def endQuery(request,pk):
 @api_view(['GET'])
 def scrapLoop(request):
     parameters = Parameters.objects.filter(active=True)
+    if len(parameters) == 0:
+        return JsonResponse({'message': 'Not Found'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     allResponses = {}
     for parameter in parameters:
         if parameter.active == False:
-            allResponses['user'+str(parameter.userId)].append('Activate start')
+            allResponses[str(parameter.userId)].append('Activate start')
             continue
             #return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"

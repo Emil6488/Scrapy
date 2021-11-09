@@ -55,7 +55,7 @@ def viewFilterValue(userId):
 def carsEveryMinute():
     responseRaw = requests.get(endpoint + "/api/scrap/")
     response = json.loads(responseRaw.content)
-    if responseRaw.status_code == 404:
+    if responseRaw.status_code == 405:
         return []
     else:
         return response
