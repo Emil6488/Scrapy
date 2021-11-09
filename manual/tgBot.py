@@ -2,15 +2,15 @@ import asyncio
 from functools import cache
 from aiogram import Bot , Dispatcher, executor, types
 from auth_data import token
-import json
-import datetime
 from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 from aiogram.dispatcher.filters import Text
 from scrapper import scrapMain, scrapDateAndQuery
-from backend import getStarted, end, formLink, viewFilterValue
-from helper import checkDates
+from backend import getStarted, end, formLink, viewFilterValue, carsEveryMinute
+import schedule
+import time
 
-bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
+
+bot = Bot(token="2018151846:AAE0HhWs3OCntHLHTX4rhhf_aQkfACqe4fU", parse_mode=types.ParseMode.HTML)
 
 dp = Dispatcher(bot)
 
@@ -21,6 +21,7 @@ async def start(message: types.Message):
     keyboard.add(*start_buttons)
     userId = message.from_user.id
     await message.answer("Добро пожаловать, ваш профиль сохранён. Выберите режим внизу", reply_markup=keyboard)
+
     
 
 @dp.message_handler(Text(equals="Включить"))
@@ -47,7 +48,8 @@ async def endMessages(message:  types.Message):
 async def handleFilter(message:  types.Message):
     userId = message.from_user.id
     response = formLink(userId)
-    await message.answer(response)
+    print(response)
+    await message.answer(response, parse_mode=types.ParseMode.HTML)
 
 @dp.message_handler(Text(equals="Фильтр (обзор)"))
 async def viewFilterValues(message:  types.Message):
@@ -55,8 +57,29 @@ async def viewFilterValues(message:  types.Message):
     response = viewFilterValue(userId)
     await message.answer(response)
 
+async def cars_every_minute():
+    while True:    
+        print("executed")
+        response = carsEveryMinute()
+        if isinstance(response, list):
+            continue
+        for key in response:
+            userId = key
+            body = response[key]
+            if isinstance(body, str):
+                print("no new data")
+                await bot.send_message(userId, body)
+                continue
+            for v in body:
+                cars = f"{hlink(v['title'], v['link'])}\n"\
+                        f"{hcode(v['price'])}\n"\
+                        f"{hcode(v['posted'])}\n" 
+                await bot.send_message(userId, cars)
+        await asyncio.sleep(120)
 
 if __name__=='__main__':
+    print("demo")
     loop = asyncio.get_event_loop()
-    #loop.create_task(cars_every_minute())
+    loop.create_task(cars_every_minute())
     executor.start_polling(dp)
+    
