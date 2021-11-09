@@ -17,7 +17,7 @@ from . import forms
 endpoint = "https://8fe0-131-220-35-155.ngrok.io"
 
 # Create your views here.
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def postForm(request):
     formData = request.POST.dict()
     minPrice = int(formData.get("minPrice"))

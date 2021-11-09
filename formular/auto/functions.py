@@ -43,6 +43,7 @@ def setContent(title, link, price, posted, userId, firstSearch):
     formatPosted = datetime.strptime(posted, '%Y-%d-%m  %H:%M')
     auto = Auto(link = link,title = title,price = price,posted = formatPosted,userId = userId)
     if firstSearch == True:
+        print('inside')
         auto.save()
     return {
      "link":link,
@@ -55,23 +56,23 @@ def setContent(title, link, price, posted, userId, firstSearch):
 def generateQuery(parameter):
     query = ""
     if parameter.minPrice:
-        query = query+"minPrice="+str(parameter.minPrice)+"&"
+        query = query+"min_price="+str(parameter.minPrice)+"&"
     if parameter.maxPrice:
-        query = query+"maxPrice="+str(parameter.maxPrice)+"&"
+        query = query+"max_price="+str(parameter.maxPrice)+"&"
     if parameter.minYear:
-        query = query+"minYear="+str(parameter.minYear)+"&"
+        query = query+"min_auto_year="+str(parameter.minYear)+"&"
     if parameter.maxYear:
-        query = query+"maxYear="+str(parameter.maxYear)+"&"
+        query = query+"max_auto_year="+str(parameter.maxYear)+"&"
     if parameter.minOdometer:
-        query = query+"minOdometer="+str(parameter.minOdometer)+"&"
+        query = query+"min_auto_miles="+str(parameter.minOdometer)+"&"
     if parameter.maxOdometer:
-        query = query+"maxOdometer="+str(parameter.maxOdometer)+"&"
+        query = query+"max_auto_miles="+str(parameter.maxOdometer)+"&"
     if parameter.condition:
         query = query+"condition="+str(parameter.condition)+"&"
     if parameter.miles:
-        query = query+"miles="+str(parameter.miles)+"&"
+        query = query+"search_distance="+str(parameter.miles)+"&"
     if parameter.postalCode:
-        query = query+"postalCode="+str(parameter.postalCode)+"&"
+        query = query+"postal="+str(parameter.postalCode)+"&"
     if parameter.carModel:
-        query = query+"carModel="+parameter.carModel+"&"
+        query = query+"auto_make_model="+parameter.carModel+"&"
     return query

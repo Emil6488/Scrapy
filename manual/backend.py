@@ -52,7 +52,7 @@ def viewFilterValue(userId):
         return "Вы не активизировались"
     else: return "Ошибка сервера"
 
-def carsEveryMinute(userId):
+def carsEveryMinute():
     responseRaw = requests.get(endpoint + "/api/scrap/")
     response = json.loads(responseRaw.content)
     if responseRaw.status_code == 404:
