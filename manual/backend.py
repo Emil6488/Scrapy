@@ -1,9 +1,12 @@
+import asyncio
+from aiogram import Bot , Dispatcher, executor, types
 import requests
 from bs4 import BeautifulSoup
 from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 import json
 
-endpoint = "https://8fe0-131-220-35-155.ngrok.io"
+from requests.api import post
+endpoint = "https://dd57-131-220-35-155.ngrok.io"
 
 def getStarted(userId):
     responseRaw = requests.get(endpoint+ "/api/auto/start/"+str(userId))
@@ -46,5 +49,13 @@ def viewFilterValue(userId):
                 f'почтовый индекс: {response["postalCode"]}\n'\
                 f'модель машины: {response["carModel"]}\n'
     elif responseRaw.status_code == 404:
-        return "Вы не активизировались"   
+        return "Вы не активизировались"
     else: return "Ошибка сервера"
+
+def carsEveryMinute(userId):
+    responseRaw = requests.get(endpoint + "/api/scrap/")
+    response = json.loads(responseRaw.content)
+    if responseRaw.status_code == 404:
+        return []
+    else:
+        return response

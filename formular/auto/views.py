@@ -40,29 +40,26 @@ def endQuery(request,pk):
     return JsonResponse({'message': 'Confirmed'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def scrapLoop(request,pk):
-    try: 
-        parameter = Parameters.objects.get(userId=pk, active=True)
-    except Parameters.DoesNotExist: 
-        return JsonResponse({'message': 'The parameters does not exist'}, status=status.HTTP_403_FORBIDDEN)
-    if parameter.active == False:
-        return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-    url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
-    query = functions.generateQuery(parameter)
-    autos = functions.scrapMain(15, pk,url+query,False)
-    responseAutos = []
-    for auto in autos:
-        print(auto["link"])
-        try: 
-            newAuto = Auto.objects.get(link=auto["link"], userId=pk)
-        except Auto.DoesNotExist:
-            freshAuto = Auto(link = auto["link"],title = auto["title"],price = auto["price"],posted = auto["posted"],userId=pk)
-            freshAuto.save()
-            responseAutos.append(auto)
-    if len(responseAutos)> 0:
-        return JsonResponse(responseAutos, status=status.HTTP_200_OK, safe=False)
-    else:
-        return JsonResponse({'message': 'No new autos'}, status=status.HTTP_404_NOT_FOUND)
+def scrapLoop(request):
+    parameters = Parameters.objects.get(active=True)
+    allResponses = {}
+    for parameter in parameters:
+        if parameter.active == False:
+            allResponses[str(parameter.userId)].append('Activate start')
+            #return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
+        query = functions.generateQuery(parameter)
+        autos = functions.scrapMain(15, parameter.userId,url+query,False)
+        responseAutos = []
+        for auto in autos:
+            try: 
+                newAuto = Auto.objects.get(link=auto["link"], userId=parameter.userId)
+            except Auto.DoesNotExist:
+                freshAuto = Auto(link = auto["link"],title = auto["title"],price = auto["price"],posted = auto["posted"],userId=parameter.userId)
+                freshAuto.save()
+                responseAutos.append(auto)
+        allResponses[str(parameter.userId)].append(responseAutos)
+    return JsonResponse(allResponses, status=status.HTTP_200_OK, safe=False)
 
 
 
