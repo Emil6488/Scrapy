@@ -14,7 +14,7 @@ from rest_framework import status
 from parameters.models import Parameters
 from . import forms
 
-endpoint = "https://8fe0-131-220-35-155.ngrok.io"
+endpoint = "https://0a19-131-220-35-155.ngrok.io"
 
 # Create your views here.
 @api_view(['POST'])

@@ -6,7 +6,7 @@ from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 import json
 
 from requests.api import post
-endpoint = "https://dd57-131-220-35-155.ngrok.io"
+endpoint = " https://0a19-131-220-35-155.ngrok.io"
 
 def getStarted(userId):
     responseRaw = requests.get(endpoint+ "/api/auto/start/"+str(userId))
@@ -27,7 +27,8 @@ def formLink(userId):
     print(responseRaw.content)
     if responseRaw.status_code == 200:
         print(response['message'])
-        return f"{hlink('Открыть ссылку', response['message'])}\n"
+        val = '<a href="'+response['message']+'">Открыть ссылку</a>'
+        return val
     else:
         return "Ошибка сервера"
 
@@ -54,8 +55,7 @@ def viewFilterValue(userId):
 
 def carsEveryMinute():
     responseRaw = requests.get(endpoint + "/api/scrap/")
-    response = json.loads(responseRaw.content)
     if responseRaw.status_code == 405:
         return []
     else:
-        return response
+        return json.loads(responseRaw.content)
