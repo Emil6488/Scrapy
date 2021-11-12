@@ -3,10 +3,35 @@ from bs4 import BeautifulSoup
 from auto.helper import checkDates, findLatest
 from auto.models import Auto
 from datetime import datetime
+from . import route
+
+from itertools import cycle
+import traceback
+
+
+
+
+def returnPage(url):
+    proxies = route.get_proxies()
+    proxy_pool = cycle(proxies)
+    for i in range(1,45):
+        proxy = next(proxy_pool)
+        print("Request #%d"%i)
+        try:
+            response = requests.get(url,proxies={"http": proxy, "https": proxy})
+            print(response);
+            return response
+        except:
+            print("Skipping. Connnection error")
+
 
 
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
-    cars = []   
+    cars = []
+    proxies = {
+    "http": "http://10.10.1.10:1080",
+    "https": "https://10.10.1.10:1080",
+    }
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     searchResults = soup.find(id="search-results")
@@ -25,7 +50,7 @@ def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-truc
             return cars
 
 def scrapContent(link,price, userId,firstSearch):
-    page = requests.get(link)
+    page = returnPage(link)
     soup = BeautifulSoup(page.content, "html.parser")
     #extract posted
     dateBar = soup.find("header", class_="dateReplyBar")

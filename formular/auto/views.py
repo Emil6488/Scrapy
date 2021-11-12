@@ -53,7 +53,7 @@ def scrapLoop(request):
             #return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
         query = functions.generateQuery(parameter)
-        autos = functions.scrapMain(15, parameter.userId,url+query,False)
+        autos = functions.scrapMain(45, parameter.userId,url+query,False)
         print(url+query)
         responseAutos = []
         for auto in autos:            
