@@ -4,7 +4,6 @@ from aiogram import Bot , Dispatcher, executor, types
 from auth_data import token
 from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 from aiogram.dispatcher.filters import Text
-from scrapper import scrapMain, scrapDateAndQuery
 from backend import getStarted, end, formLink, viewFilterValue, carsEveryMinute
 import schedule
 import time

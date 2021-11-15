@@ -1,39 +1,40 @@
 import time
 from parameters.models import Parameters
 
-def generateURL(param: Parameters):
+def locationBasedURL(param: Parameters):
     mainURL = ""
     if param.area == 'losangeles':
-        mainURL = "https://losangeles.craigslist.org/search<subArea>/cta?"
+        mainURL = "https://losangeles.craigslist.org/search"
     else:
-        mainURL = "https://sfbay.craigslist.org/search<subArea>/cta?"
+        mainURL = "https://sfbay.craigslist.org/search"
     #los angeles
+    print (param.subArea)
     if param.subArea == '1':
-        mainURL.replace("<subArea>", "/")
+        mainURL = mainURL+'/cta?'
     elif param.subArea == 'sfv':
-        mainURL.replace("<subArea>", "/sfv")
+        mainURL = mainURL+'/sfv/cta?'
     elif param.subArea == 'ant':
-        mainURL.replace("<subArea>", "/ant")
+        mainURL = mainURL+'/ant/cta?'
     elif param.subArea == 'lac':
-        mainURL.replace("<subArea>", "/lac")
+        mainURL = mainURL+'/lac/cta?'
     elif param.subArea == 'lgb':
-        mainURL.replace("<subArea>", "/lgb")
+        mainURL = mainURL+'/lgb/cta?'
     elif param.subArea == 'sgv':
-        mainURL.replace("<subArea>", "/sgv")
+        mainURL = mainURL+'/sgv/cta?'
     elif param.subArea == 'wst':
-        mainURL.replace("<subArea>", "/wst")
+        mainURL = mainURL+'/wst/cta?'
     #san francisco
     elif param.subArea == 'eby':
-        mainURL.replace("<subArea>", "/eby")
+        mainURL = mainURL+'/eby/cta?'
     elif param.subArea == 'nby':
-        mainURL.replace("<subArea>", "/nby")
+        mainURL = mainURL+'/nby/cta?'
     elif param.subArea == 'pen':
-        mainURL.replace("<subArea>", "/pen")
+        mainURL = mainURL+'/pen/cta?'
     elif param.subArea == 'sfc':
-        mainURL.replace("<subArea>", "/sfc")
+        mainURL = mainURL+'/sfc/cta?'
     elif param.subArea == 'scz':
-        mainURL.replace("<subArea>", "/scz")
+        mainURL = mainURL+'/scz/cta?'
     else:
-        mainURL.replace("<subArea>", "/sby")
+        mainURL = mainURL+'/sby/cta?'
     return mainURL
     

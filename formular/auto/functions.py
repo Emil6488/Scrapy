@@ -3,13 +3,11 @@ from bs4 import BeautifulSoup
 from auto.models import Auto
 from datetime import datetime
 from itertools import cycle
+from parameters.models import Parameters
+
 
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
     cars = []
-    proxies = {
-    "http": "http://10.10.1.10:1080",
-    "https": "https://10.10.1.10:1080",
-    }
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     searchResults = soup.find(id="search-results")
@@ -47,7 +45,7 @@ def scrapContent(link,price, userId,firstSearch):
 
 def setContent(title, link, price, posted, userId, firstSearch):
     print(posted)
-    formatPosted = datetime.strptime(posted, '%Y-%d-%m  %H:%M')
+    formatPosted = datetime.strptime(posted, '%Y-%m-%d  %H:%M')
     auto = Auto(link = link,title = title,price = price,posted = formatPosted,userId = userId)
     if firstSearch == True:
         print('inside')
@@ -60,7 +58,7 @@ def setContent(title, link, price, posted, userId, firstSearch):
     }
 
 
-def generateQuery(parameter):
+def generateQuery(parameter: Parameters):
     query = ""
     if parameter.minPrice:
         query = query+"min_price="+str(parameter.minPrice)+"&"

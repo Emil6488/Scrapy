@@ -7,6 +7,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.decorators import api_view
 from . import functions
+from . import helper
 from auto.serializers import AutoSerializer
 from auto.models import Auto
 from parameters.models import Parameters
@@ -23,9 +24,11 @@ def startQuery(request,pk):
     if parameter.active == False:
         parameter.active = True
         parameter.save()
-        autos = functions.scrapMain(5,pk)
-        for auto in autos:
-            return JsonResponse(autos, status=status.HTTP_200_OK, safe=False)
+        url  = helper.locationBasedURL(parameter)
+        query = functions.generateQuery(parameter)
+        print(url+query)
+        autos = functions.scrapMain(15, parameter.userId,url+query,False)
+        return JsonResponse(autos, status=status.HTTP_200_OK, safe=False)            
     else:
         return JsonResponse({'message': 'Invalid request'}, status=status.HTTP_403_FORBIDDEN)
     
@@ -51,9 +54,10 @@ def scrapLoop(request):
             allResponses[str(parameter.userId)].append('Activate start')
             continue
             #return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
+        #url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
+        url  = helper.locationBasedURL(parameter)
         query = functions.generateQuery(parameter)
-        autos = functions.scrapMain(45, parameter.userId,url+query,False)
+        autos = functions.scrapMain(3, parameter.userId,url+query,False)
         print(url+query)
         responseAutos = []
         for auto in autos:            
