@@ -20,10 +20,15 @@ endpoint = "https://0a19-131-220-35-155.ngrok.io"
 @api_view(['POST'])
 def postForm(request):
     formData = request.POST.dict()
+    print(formData)
     minPrice = int(formData.get("minPrice"))
     maxPrice = int(formData.get("maxPrice"))
     minYear = int(formData.get("minYear"))
     maxYear = int(formData.get("maxYear"))
+    area = formData.get("area")
+    print(area)    
+    subarea = formData.get("subarea")
+    print(subarea)
     minOdometer = int(formData.get("minOdometer"))
     maxOdometer = int(formData.get("maxOdometer"))
     condition = int(formData.get("condition"))
@@ -32,6 +37,8 @@ def postForm(request):
     carModel = formData.get("carModel")
     newParam = Parameters(
         minPrice=minPrice,
+        area=area,
+        subArea=subarea,
         maxPrice=maxPrice,
         minYear=minYear,
         maxYear=maxYear,

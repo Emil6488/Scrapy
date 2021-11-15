@@ -1,26 +1,39 @@
 import time
+from parameters.models import Parameters
 
-def checkDates(date1,date2):
-    if date1 is None:
-        return date2
-    if date2 is None:
-        return date1
-    formatted_date1 = time.strptime(date1, "%Y-%m-%d %H:%M")
-    formatted_date2 = time.strptime(date2,  "%Y-%m-%d %H:%M")
-    if formatted_date1 > formatted_date2:
-        return date1
+def generateURL(param: Parameters):
+    mainURL = ""
+    if param.area == 'losangeles':
+        mainURL = "https://losangeles.craigslist.org/search<subArea>/cta?"
     else:
-        return date2
-
-def findLatest(latestCar,newCar):
-    if latestCar is None:
-        return newCar
-    if newCar is None:
-        return latestCar
-    formattedDate1 = time.strptime(latestCar, "%Y-%m-%d %H:%M")
-    formatNewCar = time.strptime(newCar,  "%Y-%m-%d %H:%M")
-    if formattedDate1 == formatNewCar:
-        return True
-    if formattedDate1 < formatNewCar:
-        return False
+        mainURL = "https://sfbay.craigslist.org/search<subArea>/cta?"
+    #los angeles
+    if param.subArea == '1':
+        mainURL.replace("<subArea>", "/")
+    elif param.subArea == 'sfv':
+        mainURL.replace("<subArea>", "/sfv")
+    elif param.subArea == 'ant':
+        mainURL.replace("<subArea>", "/ant")
+    elif param.subArea == 'lac':
+        mainURL.replace("<subArea>", "/lac")
+    elif param.subArea == 'lgb':
+        mainURL.replace("<subArea>", "/lgb")
+    elif param.subArea == 'sgv':
+        mainURL.replace("<subArea>", "/sgv")
+    elif param.subArea == 'wst':
+        mainURL.replace("<subArea>", "/wst")
+    #san francisco
+    elif param.subArea == 'eby':
+        mainURL.replace("<subArea>", "/eby")
+    elif param.subArea == 'nby':
+        mainURL.replace("<subArea>", "/nby")
+    elif param.subArea == 'pen':
+        mainURL.replace("<subArea>", "/pen")
+    elif param.subArea == 'sfc':
+        mainURL.replace("<subArea>", "/sfc")
+    elif param.subArea == 'scz':
+        mainURL.replace("<subArea>", "/scz")
+    else:
+        mainURL.replace("<subArea>", "/sby")
+    return mainURL
     

@@ -1,4 +1,7 @@
 formular/auto/__pycache__/
+formular/auto/migrations/
 formular/formular/__pycache__/
+formular/formular/migrations/
 formular/parameters/__pycache__/
+formular/parameters/migrations/
 manual/__pycache__/

@@ -14,3 +14,5 @@ class Parameters(models.Model):
     postalCode =  models.IntegerField(null=True)
     carModel = models.CharField(max_length=100, null=True)
     active = models.BooleanField(default=False)
+    area = models.CharField(max_length=200,null=True)
+    subArea = models.CharField(max_length=200,null=True)

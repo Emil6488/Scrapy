@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from auto.helper import checkDates, findLatest
 from auto.models import Auto
 from datetime import datetime
 from itertools import cycle

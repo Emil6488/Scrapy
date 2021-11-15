@@ -34,9 +34,8 @@
       <div class="row">
         <div class="col-md-12 order-md-1">
           <!--<form method="POST" action="/api/parameters"> -->
-          <form id="queryForm"   method="POST"    action="http://localhost:8000/api/parameters">
+          <form id="queryForm"   method="POST"    action="/api/parameters">
             {% csrf_token %}
-            <!--
             <h4 class="mb-3">Location</h4>
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -47,31 +46,17 @@
                   id="area"
                 >
                         <option selected value="losangeles">los angeles</option>
-                        <option value="bakersfield">bakersfield</option>
-                        <option value="fresno">fresno</option>
-                        <option value="hanford">hanford</option>
-                        <option value="imperial">imperial co</option>
-                        <option value="inlandempire">inland empire</option>
-                        <option value="lasvegas">las vegas</option>
-                        <option value="orangecounty">orange co</option>
-                        <option value="palmsprings">palm springs</option>
-                        <option value="sandiego">san diego</option>
-                        <option value="slo">san luis obispo</option>
-                        <option value="santabarbara">santa barbara</option>
-                        <option value="santamaria">santa maria</option>
-                        <option value="ventura">ventura</option>
-                        <option value="visalia">visalia-tulare</option>
-                        <option value="yuma">yuma</option>
+                        <option value="SF bayArea">san franciscko</option>
                 </select>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="region">Region</label>
+                <label for="subarea">Region</label>
                 <select
                   class="custom-select d-block w-100"
                   name="subarea"
                   id="subarea"
                 >
-                <option value="allLG" selected>all los angeles</option>
+                <option value="1" selected>all los angeles</option>
                 <option value="sfv">SF valley</option>
                 <option value="ant">antelope valley</option>
                 <option value="lac">central LA</option>
@@ -80,10 +65,7 @@
                 <option value="wst">westside-southbay</option>
                 </select>
               </div>
-              </div>
-            
-            -->
-            
+              </div>         
             
             <h4 class="mb-3">Price</h4>
             <div class="row">

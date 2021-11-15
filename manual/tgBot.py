@@ -20,7 +20,8 @@ async def start(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*start_buttons)
     userId = message.from_user.id
-    await message.answer("Добро пожаловать, ваш профиль сохранён. Выберите режим внизу", reply_markup=keyboard)
+    await message.answer("Добро пожаловать, По умолчанию вам будут отправлены машины из Лос Анджелеса")
+    await message.answer("Включите", reply_markup=keyboard)
 
     
 
