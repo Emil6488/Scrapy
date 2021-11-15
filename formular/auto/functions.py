@@ -3,28 +3,7 @@ from bs4 import BeautifulSoup
 from auto.helper import checkDates, findLatest
 from auto.models import Auto
 from datetime import datetime
-from . import route
-
 from itertools import cycle
-import traceback
-
-
-
-
-def returnPage(url):
-    proxies = route.get_proxies()
-    proxy_pool = cycle(proxies)
-    for i in range(1,45):
-        proxy = next(proxy_pool)
-        print("Request #%d"%i)
-        try:
-            response = requests.get(url,proxies={"http": proxy, "https": proxy})
-            print(response);
-            return response
-        except:
-            print("Skipping. Connnection error")
-
-
 
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
     cars = []
@@ -50,17 +29,21 @@ def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-truc
             return cars
 
 def scrapContent(link,price, userId,firstSearch):
-    page = returnPage(link)
-    soup = BeautifulSoup(page.content, "html.parser")
-    #extract posted
-    dateBar = soup.find("header", class_="dateReplyBar")
-    time = dateBar.find("time", class_="date")
-    posted = time.text.strip()
-    #extract name
-    attr = soup.find("div", class_="mapAndAttrs")
-    name = attr.find("p", class_="attrgroup")
-    title = name.text.strip()
-    return setContent(title, link, price, posted, userId,firstSearch)
+    try:
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        #extract posted
+        dateBar = soup.find("header", class_="dateReplyBar")
+        time = dateBar.find("time", class_="date")
+        posted = time.text.strip()
+        #extract name
+        attr = soup.find("div", class_="mapAndAttrs")
+        name = attr.find("p", class_="attrgroup")
+        title = name.text.strip()
+        return setContent(title, link, price, posted, userId,firstSearch)
+    except Exception as e:
+        print(e)
+        
 
 
 def setContent(title, link, price, posted, userId, firstSearch):

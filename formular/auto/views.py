@@ -62,7 +62,7 @@ def scrapLoop(request):
             except Auto.DoesNotExist:
                 freshAuto = Auto(link = auto["link"],title = auto["title"],price = auto["price"],posted = auto["posted"],userId=parameter.userId)
                 freshAuto.save()
-                responseAutos.append(auto)        
+                responseAutos.append(auto)      
         if len(responseAutos) == 0:
             allResponses[str(parameter.userId)] = 'No new autos'
         else:
