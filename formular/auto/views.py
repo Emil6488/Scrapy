@@ -53,7 +53,7 @@ def scrapLoop(request):
             #return JsonResponse({'message': 'Activate start'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
         query = functions.generateQuery(parameter)
-        autos = functions.scrapMain(15, parameter.userId,url+query,False)
+        autos = functions.scrapMain(45, parameter.userId,url+query,False)
         print(url+query)
         responseAutos = []
         for auto in autos:            
@@ -62,7 +62,7 @@ def scrapLoop(request):
             except Auto.DoesNotExist:
                 freshAuto = Auto(link = auto["link"],title = auto["title"],price = auto["price"],posted = auto["posted"],userId=parameter.userId)
                 freshAuto.save()
-                responseAutos.append(auto)        
+                responseAutos.append(auto)      
         if len(responseAutos) == 0:
             allResponses[str(parameter.userId)] = 'No new autos'
         else:

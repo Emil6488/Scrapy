@@ -3,10 +3,14 @@ from bs4 import BeautifulSoup
 from auto.helper import checkDates, findLatest
 from auto.models import Auto
 from datetime import datetime
-
+from itertools import cycle
 
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
-    cars = []   
+    cars = []
+    proxies = {
+    "http": "http://10.10.1.10:1080",
+    "https": "https://10.10.1.10:1080",
+    }
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     searchResults = soup.find(id="search-results")
@@ -25,17 +29,21 @@ def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-truc
             return cars
 
 def scrapContent(link,price, userId,firstSearch):
-    page = requests.get(link)
-    soup = BeautifulSoup(page.content, "html.parser")
-    #extract posted
-    dateBar = soup.find("header", class_="dateReplyBar")
-    time = dateBar.find("time", class_="date")
-    posted = time.text.strip()
-    #extract name
-    attr = soup.find("div", class_="mapAndAttrs")
-    name = attr.find("p", class_="attrgroup")
-    title = name.text.strip()
-    return setContent(title, link, price, posted, userId,firstSearch)
+    try:
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        #extract posted
+        dateBar = soup.find("header", class_="dateReplyBar")
+        time = dateBar.find("time", class_="date")
+        posted = time.text.strip()
+        #extract name
+        attr = soup.find("div", class_="mapAndAttrs")
+        name = attr.find("p", class_="attrgroup")
+        title = name.text.strip()
+        return setContent(title, link, price, posted, userId,firstSearch)
+    except Exception as e:
+        print(e)
+        
 
 
 def setContent(title, link, price, posted, userId, firstSearch):

@@ -6,7 +6,7 @@ from aiogram.utils.markdown import hbold, hunderline, hcode, hlink
 import json
 
 from requests.api import post
-endpoint = " https://0a19-131-220-35-155.ngrok.io"
+endpoint = "http://localhost:8000"
 
 def getStarted(userId):
     responseRaw = requests.get(endpoint+ "/api/auto/start/"+str(userId))
