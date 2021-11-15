@@ -26,42 +26,59 @@ async def start(message: types.Message):
 
 @dp.message_handler(Text(equals="Включить"))
 async def start(message: types.Message):
-    userId = message.from_user.id
-    response = getStarted(userId)
-    for v in response:
-        cars = f"{hlink(v['title'], v['link'])}\n"\
-                f"{hcode(v['price'])}\n"\
-                f"{hcode(v['posted'])}\n" 
-        await message.answer(cars) 
-    await message.answer("Далее сообщения будут обновляться")
+    try:
+        userId = message.from_user.id
+        response = getStarted(userId)
+        for v in response:
+            cars = f"{hlink(v['title'], v['link'])}\n"\
+                    f"{hcode(v['price'])}\n"\
+                    f"{hcode(v['posted'])}\n" 
+            await message.answer(cars) 
+        await message.answer("Далее сообщения будут обновляться")
+        loop = asyncio.get_event_loop()
+        loop.create_task(cars_every_minute())
+    except Exception as e:
+        print(e)
 
 
 
-@dp.message_handler(Text(equals="Включить"))
+@dp.message_handler(Text(equals="Выключить"))
 async def endMessages(message:  types.Message):
-    userId = message.from_user.id
-    response = end(userId)
-    await message.answer(response)
+    try:
+        userId = message.from_user.id
+        response = end(userId)
+        await message.answer(response)
+    except Exception as e:
+        print(e)
+
 
 
 @dp.message_handler(Text(equals="Фильтр (настр)"))
 async def handleFilter(message:  types.Message):
-    userId = message.from_user.id
-    response = formLink(userId)
-    print(response)
-    await message.answer(response, parse_mode=types.ParseMode.HTML)
+    try:
+        userId = message.from_user.id
+        response = formLink(userId)
+        print(response)
+        await message.answer(response, parse_mode=types.ParseMode.HTML)
+    except Exception as e:
+        print(e)
 
 @dp.message_handler(Text(equals="Фильтр (обзор)"))
 async def viewFilterValues(message:  types.Message):
-    userId = message.from_user.id
-    response = viewFilterValue(userId)
-    await message.answer(response)
+    try:
+        userId = message.from_user.id
+        response = viewFilterValue(userId)
+        await message.answer(response)
+    except Exception as e:
+        print(e)
+
 
 async def cars_every_minute():
     while True:    
         print("executed")
         response = carsEveryMinute()
         if isinstance(response, list):
+            print("hello")
             continue
         for key in response:
             userId = key
@@ -77,9 +94,7 @@ async def cars_every_minute():
                 await bot.send_message(userId, cars)
         await asyncio.sleep(120)
 
-if __name__=='__main__':
+if __name__=='__main__':    
     print("demo")
-    loop = asyncio.get_event_loop()
-    loop.create_task(cars_every_minute())
     executor.start_polling(dp)
     
