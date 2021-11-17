@@ -57,7 +57,7 @@ def scrapLoop(request):
         #url = "https://losangeles.craigslist.org/d/cars-trucks/search/cta?"
         url  = helper.locationBasedURL(parameter)
         query = functions.generateQuery(parameter)
-        autos = functions.scrapMain(3, parameter.userId,url+query,False)
+        autos = functions.scrapMain(45, parameter.userId,url+query,False)
         print(url+query)
         responseAutos = []
         for auto in autos:            
