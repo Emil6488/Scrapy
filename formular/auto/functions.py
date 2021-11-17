@@ -40,15 +40,17 @@ def scrapContent(link,price, userId,firstSearch):
         return setContent(title, link, price, posted, userId,firstSearch)
     except Exception as e:
         print(e)
+        print("Error at the following link")
+        print(link)
         
 
 
 def setContent(title, link, price, posted, userId, firstSearch):
-    print(posted)
+    print(link)
     formatPosted = datetime.strptime(posted, '%Y-%m-%d  %H:%M')
     auto = Auto(link = link,title = title,price = price,posted = formatPosted,userId = userId)
     if firstSearch == True:
-        print('inside')
+        print('--------')
         auto.save()
     return {
      "link":link,
