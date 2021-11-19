@@ -7,8 +7,6 @@ def locationBasedURL(param: Parameters):
         mainURL = "https://losangeles.craigslist.org/search"
     else:
         mainURL = "https://sfbay.craigslist.org/search"
-    #los angeles
-    print (param.subArea)
     if param.subArea == '1':
         mainURL = mainURL+'/cta?'
     elif param.subArea == 'sfv':

@@ -4,4 +4,5 @@ formular/formular/__pycache__/
 formular/formular/migrations/
 formular/parameters/__pycache__/
 formular/parameters/migrations/
+formular/logs/*
 manual/__pycache__/

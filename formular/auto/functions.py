@@ -4,7 +4,9 @@ from auto.models import Auto
 from datetime import datetime
 from itertools import cycle
 from parameters.models import Parameters
+import logging
 
+logger = logging.getLogger('error_logger')
 
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
     cars = []
@@ -39,18 +41,18 @@ def scrapContent(link,price, userId,firstSearch):
         title = name.text.strip()
         return setContent(title, link, price, posted, userId,firstSearch)
     except Exception as e:
-        print(e)
-        print("Error at the following link")
-        print(link)
+        logger.debug("Error in Scrapping")
+        logger.debug(e)
+        logger.debug("Error at the following link:")
+        logger.debug(link)
         
 
 
 def setContent(title, link, price, posted, userId, firstSearch):
-    print(link)
     formatPosted = datetime.strptime(posted, '%Y-%m-%d  %H:%M')
     auto = Auto(link = link,title = title,price = price,posted = formatPosted,userId = userId)
     if firstSearch == True:
-        print('--------')
+        logger.debug('New auto was saved')
         auto.save()
     return {
      "link":link,
