@@ -5,12 +5,19 @@ from datetime import datetime
 from itertools import cycle
 from parameters.models import Parameters
 import logging
+import fake_useragent
 
 logger = logging.getLogger('error_logger')
 
+user = fake_useragent.UserAgent().random
+    
+headers = {
+        'user-agent': user
+}
+
 def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-trucks/search/cta", firstSearch = True):
     cars = []
-    page = requests.get(URL)
+    page = requests.get(URL,headers=headers)
     soup = BeautifulSoup(page.content, "html.parser")
     searchResults = soup.find(id="search-results")
     carRows = searchResults.find_all("li", class_="result-row")
@@ -29,7 +36,7 @@ def scrapMain(limit, userId,URL = "https://losangeles.craigslist.org/d/cars-truc
 
 def scrapContent(link,price, userId,firstSearch):
     try:
-        page = requests.get(link)
+        page = requests.get(link, headers=headers)
         soup = BeautifulSoup(page.content, "html.parser")
         #extract posted
         dateBar = soup.find("header", class_="dateReplyBar")
